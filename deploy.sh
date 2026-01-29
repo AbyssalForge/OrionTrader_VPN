@@ -52,15 +52,15 @@ fi
 
 # Pull latest Docker images
 echo -e "${YELLOW}🐳 Pulling Docker images...${NC}"
-docker-compose pull
+sudo docker-compose pull
 
 # Stop existing containers
 echo -e "${YELLOW}🛑 Stopping existing containers...${NC}"
-docker-compose down || true
+sudo docker-compose down || true
 
 # Start containers
 echo -e "${YELLOW}🔄 Starting containers...${NC}"
-docker-compose up -d
+sudo docker-compose up -d
 
 # Wait for containers to be healthy
 echo -e "${YELLOW}⏳ Waiting for services to be ready...${NC}"
@@ -68,15 +68,15 @@ sleep 5
 
 # Show status
 echo -e "${YELLOW}📊 Container status:${NC}"
-docker-compose ps
+sudo docker-compose ps
 
 # Show logs
 echo -e "${YELLOW}📝 Recent logs:${NC}"
-docker-compose logs --tail=20
+sudo docker-compose logs --tail=20
 
 # Clean up old images
 echo -e "${YELLOW}🧹 Cleaning up old images...${NC}"
-docker image prune -f || true
+sudo docker image prune -f || true
 
 echo -e "${GREEN}✅ Deployment completed successfully!${NC}"
 echo -e "${GREEN}🌐 WireGuard VPN is running on port 51820${NC}"

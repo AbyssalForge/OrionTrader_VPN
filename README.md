@@ -79,6 +79,14 @@ sh get-docker.sh
 apt-get update
 apt-get install -y docker-compose-plugin
 
+# Configurer les permissions Docker (optionnel)
+# Si vous n'utilisez pas root, ajoutez votre utilisateur au groupe docker
+usermod -aG docker $USER
+newgrp docker
+
+# Configurer sudo sans mot de passe pour docker (pour GitHub Actions)
+echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/docker, /usr/bin/docker-compose" | sudo tee /etc/sudoers.d/docker
+
 # Créer le répertoire de l'application
 mkdir -p ~/wg-easy
 ```
@@ -183,6 +191,34 @@ Vérifiez que :
 - Tous les secrets GitHub sont correctement configurés
 - La clé SSH est valide et a les bonnes permissions sur le VPS
 - Docker est installé et fonctionne sur le VPS
+
+### Permission denied sur Docker
+
+Si vous obtenez une erreur `Permission denied` lors de l'accès au socket Docker :
+
+```bash
+# Option 1 : Ajouter l'utilisateur au groupe docker
+sudo usermod -aG docker $USER
+newgrp docker
+
+# Option 2 : Configurer sudo sans mot de passe pour docker
+echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/docker, /usr/bin/docker-compose" | sudo tee /etc/sudoers.d/docker
+sudo chmod 0440 /etc/sudoers.d/docker
+
+# Vérifier que ça fonctionne
+docker ps
+```
+
+### Erreur "destination path already exists"
+
+Si le git clone échoue avec cette erreur, nettoyez le répertoire :
+
+```bash
+ssh root@152.228.129.204
+cd ~/wg-easy
+rm -rf .git
+# Puis relancez le workflow
+```
 
 ### Impossible d'accéder à l'interface web
 

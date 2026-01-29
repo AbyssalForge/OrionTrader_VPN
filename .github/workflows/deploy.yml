@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - init_vpn
   workflow_dispatch:
 
 jobs:
@@ -59,21 +60,33 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
           script: |
-            # Navigate to app directory
-            mkdir -p $HOME/wg-easy
-            cd $HOME/wg-easy
+            # Define app directory
+            APP_DIR="$HOME/wg-easy"
 
-            # Pull latest changes or clone
-            if [ -d ".git" ]; then
+            # Check if it's a valid git repository
+            if [ -d "$APP_DIR/.git" ]; then
               echo "Updating existing repository..."
+              cd "$APP_DIR"
               git fetch origin
               git reset --hard origin/${{ github.ref_name }}
+              git clean -fd
             else
-              echo "Cloning repository..."
-              # Remove any existing files if directory is not empty
-              rm -rf ./*
-              rm -rf ./.??*
-              git clone https://github.com/${{ github.repository }} .
+              echo "Setting up fresh repository..."
+              # Remove directory if it exists but is not a git repo
+              if [ -d "$APP_DIR" ]; then
+                echo "Removing existing non-git directory..."
+                rm -rf "$APP_DIR"
+              fi
+              # Clone repository
+              git clone https://github.com/${{ github.repository }} "$APP_DIR"
+              cd "$APP_DIR"
+            fi
+
+            # Verify docker-compose.yml exists
+            if [ ! -f "docker-compose.yml" ]; then
+              echo "ERROR: docker-compose.yml not found!"
+              ls -la
+              exit 1
             fi
 
             # Create .env file with secrets

@@ -209,14 +209,26 @@ sudo chmod 0440 /etc/sudoers.d/docker
 docker ps
 ```
 
+### Erreur "Can't find docker-compose.yml"
+
+Si docker-compose ne trouve pas le fichier de configuration, le repository n'a pas été cloné correctement :
+
+```bash
+ssh root@152.228.129.204
+
+# Supprimer complètement le répertoire
+rm -rf $HOME/wg-easy
+
+# Relancer le workflow pour un clone propre
+```
+
 ### Erreur "destination path already exists"
 
 Si le git clone échoue avec cette erreur, nettoyez le répertoire :
 
 ```bash
 ssh root@152.228.129.204
-cd $HOME/wg-easy
-rm -rf .git
+rm -rf $HOME/wg-easy
 # Puis relancez le workflow
 ```
 

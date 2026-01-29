@@ -60,8 +60,8 @@ jobs:
           port: ${{ secrets.VPS_PORT || 22 }}
           script: |
             # Navigate to app directory
-            mkdir -p ~/wg-easy
-            cd ~/wg-easy
+            mkdir -p $HOME/wg-easy
+            cd $HOME/wg-easy
 
             # Pull latest changes or clone
             if [ -d ".git" ]; then
@@ -100,6 +100,9 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
           script: |
-            cd ~/wg-easy
+            cd $HOME/wg-easy
+            echo "Current directory: $(pwd)"
+            echo "Files in directory:"
+            ls -la
             sudo docker-compose ps
             sudo docker-compose logs --tail=50

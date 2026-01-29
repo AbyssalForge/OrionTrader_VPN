@@ -75,7 +75,7 @@ jobs:
               # Remove directory if it exists but is not a git repo
               if [ -d "$APP_DIR" ]; then
                 echo "Removing existing non-git directory..."
-                rm -rf "$APP_DIR"
+                sudo rm -rf "$APP_DIR"
               fi
               # Clone repository
               git clone https://github.com/${{ github.repository }} "$APP_DIR"

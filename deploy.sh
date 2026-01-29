@@ -33,7 +33,7 @@ else
     # Remove directory if it exists but is not a git repo
     if [ -d "$APP_DIR" ]; then
         echo -e "${YELLOW}🗑️  Removing existing non-git directory...${NC}"
-        rm -rf "$APP_DIR"
+        sudo rm -rf "$APP_DIR"
     fi
     # Clone repository
     if [ -n "$GITHUB_REPOSITORY" ]; then

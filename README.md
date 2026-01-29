@@ -216,10 +216,20 @@ Si docker-compose ne trouve pas le fichier de configuration, le repository n'a p
 ```bash
 ssh root@152.228.129.204
 
-# Supprimer complètement le répertoire
-rm -rf $HOME/wg-easy
+# Supprimer complètement le répertoire (avec sudo car config/ appartient à root)
+sudo rm -rf $HOME/wg-easy
 
 # Relancer le workflow pour un clone propre
+```
+
+### Erreur "Permission denied" lors de la suppression
+
+Si vous obtenez une erreur de permission lors de la suppression du répertoire, c'est parce que le dossier `config/` contient des fichiers créés par Docker avec les permissions root :
+
+```bash
+ssh root@152.228.129.204
+sudo rm -rf $HOME/wg-easy
+# Puis relancez le workflow
 ```
 
 ### Erreur "destination path already exists"
@@ -228,7 +238,7 @@ Si le git clone échoue avec cette erreur, nettoyez le répertoire :
 
 ```bash
 ssh root@152.228.129.204
-rm -rf $HOME/wg-easy
+sudo rm -rf $HOME/wg-easy
 # Puis relancez le workflow
 ```
 

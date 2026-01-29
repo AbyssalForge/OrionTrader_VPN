@@ -25,15 +25,15 @@ jobs:
           port: ${{ secrets.VPS_PORT || 22 }}
           script: |
             # Define app directory
-            APP_DIR="$HOME/wg-easy"
+            APP_DIR="/opt/wg-easy"
 
             # Check if it's a valid git repository
             if [ -d "$APP_DIR/.git" ]; then
               echo "Updating existing repository..."
               cd "$APP_DIR"
-              git fetch origin
-              git reset --hard origin/${{ github.ref_name }}
-              git clean -fd
+              sudo git fetch origin
+              sudo git reset --hard origin/${{ github.ref_name }}
+              sudo git clean -fd
             else
               echo "Setting up fresh repository..."
               # Remove directory if it exists but is not a git repo
@@ -41,8 +41,10 @@ jobs:
                 echo "Removing existing non-git directory..."
                 sudo rm -rf "$APP_DIR"
               fi
+              # Create /opt directory if it doesn't exist
+              sudo mkdir -p /opt
               # Clone repository
-              git clone https://github.com/${{ github.repository }} "$APP_DIR"
+              sudo git clone https://github.com/${{ github.repository }} "$APP_DIR"
               cd "$APP_DIR"
             fi
 
@@ -54,9 +56,9 @@ jobs:
             fi
 
             # Create .env file with secrets
-            cat > .env << EOF
+            sudo bash -c "cat > .env << EOF
             WG_PASSWORD=${{ secrets.WG_PASSWORD }}
-            EOF
+            EOF"
 
             # Pull latest images
             sudo docker-compose pull
@@ -76,7 +78,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
           script: |
-            cd $HOME/wg-easy
+            cd /opt/wg-easy
             echo "Current directory: $(pwd)"
             echo "Files in directory:"
             ls -la

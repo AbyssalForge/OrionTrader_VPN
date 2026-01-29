@@ -46,6 +46,8 @@ jobs:
               # Clone repository
               sudo git clone https://github.com/${{ github.repository }} "$APP_DIR"
               cd "$APP_DIR"
+              # Checkout the correct branch
+              sudo git checkout ${{ github.ref_name }}
             fi
 
             # Verify docker-compose.yml exists

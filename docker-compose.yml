@@ -14,7 +14,7 @@ services:
       - ./config:/etc/wireguard
     ports:
       - "51820:51820/udp"
-      - "127.0.0.1:51821:51821"
+      - "0.0.0.0:51821:51821"
     cap_add:
       - NET_ADMIN
       - SYS_MODULE

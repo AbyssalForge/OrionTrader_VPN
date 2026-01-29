@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  wg-easy:
+    image: ${DOCKER_IMAGE:-oriontrader/wg-easy:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wg-easy
+    restart: unless-stopped
+    environment:
+      WG_HOST: 152.228.129.204
+      PASSWORD: ${WG_PASSWORD}
+      WG_DEFAULT_ADDRESS: 10.8.0.0/24
+      WG_DEFAULT_DNS: 1.1.1.1
+    volumes:
+      - ./config:/etc/wireguard
+    ports:
+      - "51820:51820/udp"
+      - "127.0.0.1:51821:51821"
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE

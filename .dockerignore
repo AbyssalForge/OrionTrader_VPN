@@ -1,0 +1,21 @@
+# Git
+.git
+.gitignore
+.github
+
+# Environment
+.env
+.env.example
+
+# Documentation
+README.md
+LICENSE
+
+# Config
+config/
+
+# Logs
+*.log
+
+# Scripts
+deploy.sh

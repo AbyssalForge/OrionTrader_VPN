@@ -58,7 +58,6 @@ if [ ! -f ".env" ]; then
     if [ -n "$WG_PASSWORD" ]; then
         cat > .env << EOF
 WG_PASSWORD=$WG_PASSWORD
-DOCKER_IMAGE=${DOCKER_IMAGE:-oriontrader/wg-easy:latest}
 EOF
     else
         echo "⚠️  WG_PASSWORD not set, copying from .env.example"

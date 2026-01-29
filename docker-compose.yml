@@ -2,10 +2,7 @@ version: "3.8"
 
 services:
   wg-easy:
-    image: ${DOCKER_IMAGE:-oriontrader/wg-easy:latest}
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: weejewel/wg-easy:latest
     container_name: wg-easy
     restart: unless-stopped
     environment:

@@ -16,7 +16,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # App directory
-APP_DIR="~/wg-easy"
+APP_DIR="$HOME/wg-easy"
 
 echo -e "${YELLOW}📁 Setting up directory...${NC}"
 mkdir -p "$APP_DIR"

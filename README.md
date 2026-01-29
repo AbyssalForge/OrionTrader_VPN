@@ -88,7 +88,7 @@ newgrp docker
 echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/docker, /usr/bin/docker-compose" | sudo tee /etc/sudoers.d/docker
 
 # Créer le répertoire de l'application
-mkdir -p ~/wg-easy
+mkdir -p $HOME/wg-easy
 ```
 
 ### 2. Configuration locale
@@ -126,7 +126,7 @@ git push origin main
 
 ```bash
 ssh root@152.228.129.204
-cd ~/wg-easy
+cd $HOME/wg-easy
 ./deploy.sh
 ```
 
@@ -215,7 +215,7 @@ Si le git clone échoue avec cette erreur, nettoyez le répertoire :
 
 ```bash
 ssh root@152.228.129.204
-cd ~/wg-easy
+cd $HOME/wg-easy
 rm -rf .git
 # Puis relancez le workflow
 ```

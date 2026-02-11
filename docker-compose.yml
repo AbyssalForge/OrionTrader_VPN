@@ -11,8 +11,8 @@ services:
       WG_DEFAULT_ADDRESS: 10.8.0.x
       WG_DEFAULT_DNS: 1.1.1.1
       WG_ALLOWED_IPS: "10.8.0.0/24"
-      WG_POST_UP: "iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; iptables -A INPUT -i wg0 -p tcp --dport 5432 -j ACCEPT"
-      WG_PRE_DOWN: "iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; iptables -D INPUT -i wg0 -p tcp --dport 5432 -j ACCEPT"
+      WG_POST_UP: "iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -A INPUT -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE"
+      WG_PRE_DOWN: "iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -D INPUT -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE"
     volumes:
       - ./config:/etc/wireguard
     ports:
